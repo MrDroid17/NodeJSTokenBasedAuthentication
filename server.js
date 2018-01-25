@@ -40,10 +40,25 @@ Routes
 */
 //basic routes
 
-app.get('/', function(req,res){
-	res.send('Hello! the API is at http://localhost:' +port +'/api');
-}); 
+app.get('/setup', function(req, res){
 
+	// create a sample user
+	var kumar = new User({
+		name : 'Sobhit Kumar',
+		password : 'password',
+		admin : true
+		});
+
+	//save the sample user
+
+	kumar.save(function(err){
+		if(err) throw err;
+
+		console.log('User saved successfully');
+		res.json({ success : true });
+	});
+
+}); 
 
 //API Routes
 
@@ -54,4 +69,4 @@ app.get('/', function(req,res){
 start the server
 */
 app.listen(port);
-console.log('Magic happens at http://localhost:' +port);
+console.log('Magic happens at  http://localhost:' +port);
