@@ -119,6 +119,37 @@ apiRoutes.post('/authenticate', function(req, res){
  */
 
 
+apiRoutes.use(function(req, res, next){
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    //decode token
+    if(token){
+        //verify secret and checks exps
+        jwt.verify(token, app.get('superSecret'), function(err, decoded){
+            if(err){
+                return res.json({
+                    success : false, message : 'Failed to authenticate token'
+                });
+            }else{
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                next();
+            }
+        });
+    }else{
+        /***
+        * if there is no token return error
+        */
+        return res.status(403).send({
+            success : false,
+            message : 'No Token Provided'
+        });
+    }
+});
+	
+
+
 
 // route to show a random message (GET http://localhost:8080/api/)
 apiRoutes.get('/', function(req, res){
