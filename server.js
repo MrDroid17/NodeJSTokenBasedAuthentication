@@ -139,7 +139,8 @@ apiRoutes.use(function(req, res, next){
         });
     }else{
         /***
-        * if there is no token return error
+        * if there is no token return error 
+		* The 403 (Forbidden) status code
         */
         return res.status(403).send({
             success : false,
