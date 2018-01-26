@@ -60,35 +60,81 @@ app.get('/setup', function(req, res){
 
 });
 
-
 //API Routes
-	// get instance of router for api routes
-	var apiRoutes = express.Router();
+// get instance of router for api routes
+var apiRoutes = express.Router();
 
-	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+apiRoutes.post('/authenticate', function(req, res){
+	//find the user
+    User.findOne({
+        name : req.body.name
+    }, function(err, user){
+        if(err) throw err;
+        // if user is not valid one
+        if(!user){
+            res.json({ success : false, message : 'Authentication Failed, User Not Found !!'});
 
-	//route middleware to verify token
+            //if user is valid
+        }else if(user){
 
-	// route to show a random message (GET http://localhost:8080/api/)
+            //if password is invalid
+            if(user.password != req.body.password){
+                res.json({
+                    success : false, message : 'Authentication Failed, Wrong Password !!'});
+            }else{
+                
+                /*** if user is found and password is right
+                     * create a token with only our given payload
+                     *we don't want to pass in the entire user since that has the password
+                    */
+                const payload = {
+                    admin : user.admin
+                };
 
-	apiRoutes.get('/', function(req, res){
-		res.json({ message : "this is coolest API on the earth"});
+                var token = jwt.sign(payload, app.get('superSecret'), {
+                    //expiresInMinutes is deprecated instead use expiresIn : '24h'
+                    expiresIn : '24h' //expires in 24 hours
+                });
+
+                //return the info including token as json
+
+                res.json({
+                    success : true,
+                    message : 'Enjoy Your Token !!, Valid for 24 hours',
+                    token : token
+                });
+
+            }
+
+        }
+    });
+});
+
+
+
+
+/***
+ * route middleware to verify token
+ */
+
+
+
+// route to show a random message (GET http://localhost:8080/api/)
+apiRoutes.get('/', function(req, res){
+	res.json({ message : "this is coolest API on the earth"});
+});
+
+// route to return all users (GET http://localhost:8080/api/users)
+apiRoutes.get('/users', function(req, res){
+	User.find({}, function(err, users){
+		res.json(users);
 	});
-
-	// route to return all users (GET http://localhost:8080/api/users)
-	apiRoutes.get('/users', function(req, res){
-		User.find({}, function(err, users){
-			res.json(users);
-		});
-	});
-
-	// apply the routes to our application with the prefix /api
-	app.use('/api', apiRoutes);
+});
 
 
-
-
-
+// apply the routes to our application with the prefix /api
+app.use('/api', apiRoutes);
 
 /*
 start the server
