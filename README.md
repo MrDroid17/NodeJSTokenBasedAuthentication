@@ -36,7 +36,7 @@ This Repo deals with **Token Based Authentication in NodeJD**. its a demo App wh
       
  ---
  ## Snapshots:
- < Using Postman
+ > Using Postman
   -  **If User is not Found**
  ![](snapshots/user_not_found.png)
  
