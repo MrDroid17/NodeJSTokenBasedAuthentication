@@ -32,4 +32,22 @@ This Repo deals with **Token Based Authentication in NodeJD**. its a demo App wh
       - **Body-Parser** will let us get parameters from our POST requests
 
     - JsonWebToken
-      - **JsonWebToken** is how we create and verify our JSON Web Tokens
+      - **JsonWebToken** is how we create and verify our JSON Web Token
+      
+ ---
+ ## Snapshots:
+ < Using Postman
+  -  **If User is not Found**
+ ![](snapshots/user_not_found.png)
+ 
+  - **If Password is Wrong**
+ ![](snapshots/wrong_password.png)
+ 
+   - **If Both User and Password is Right Token is generated**
+ ![](snapshots/token_generated.png)
+ 
+   - **If User Authentication By Token**
+ ![](snapshots/user_authenticate_by_token.png)
+ 
+      
+  
