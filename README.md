@@ -1,6 +1,6 @@
 # NodeJSTokenBasedAuthentication
 
-This Repo deals with **Token Based Authentication in NodeJD**. its a demo App which is based on ![scotch.io](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens) Web Tutorial.
+This Repo deals with **Token Based Authentication in NodeJD**. its a demo App which is based on [scotch.io](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens) Web Tutorial.
 
 ## Tools used:
   - node and npn
